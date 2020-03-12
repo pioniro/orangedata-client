@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Position;
-
 abstract class AgentType
 {
     public const BANK_PAYMENT_AGENT = 1;

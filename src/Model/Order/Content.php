@@ -8,7 +8,6 @@ use Webmozart\Assert\Assert;
 
 class Content
 {
-
     /**
      * @var int
      * @tag(1054)
@@ -25,7 +24,7 @@ class Content
     protected $positions;
 
     /**
-     * @var CheckClose|null
+     * @var CheckClose
      * @required
      */
     protected $checkClose;
@@ -197,14 +196,16 @@ class Content
      * @param int $type
      * @param Position[] $positions
      * @param string $customerContact
+     * @param CheckClose $checkClose
      */
-    public function __construct(int $type, array $positions, string $customerContact)
+    public function __construct(int $type, array $positions, string $customerContact, CheckClose $checkClose)
     {
         Assert::oneOf($type, OrderType::all());
         Assert::allIsInstanceOf($positions, Position::class);
         $this->type = $type;
         $this->positions = $positions;
         $this->customerContact = $customerContact;
+        $this->checkClose = $checkClose;
     }
 
     /**
@@ -608,5 +609,48 @@ class Content
     {
         $this->senderEmail = $senderEmail;
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        $fields = [
+            'type',
+            'checkClose',
+            'customerContact',
+            'agentType',
+            'paymentTransferOperatorPhoneNumbers',
+            'paymentAgentOperation',
+            'paymentAgentPhoneNumbers',
+            'paymentOperatorPhoneNumbers',
+            'paymentOperatorName',
+            'paymentOperatorAddress',
+            'paymentOperatorINN',
+            'supplierPhoneNumbers',
+            'additionalUserAttribute',
+            'additionalAttribute',
+            'automateNumber',
+            'settlementAddress',
+            'settlementPlace',
+            'customer',
+            'customerINN',
+            'cashier',
+            'cashierINN',
+            'senderEmail',
+        ];
+        $data = [];
+        foreach ($fields as $field) {
+            $value = $this->$field;
+            if (is_object($value)) {
+                $data[$field] = $value->toArray();
+            } else {
+                $data[$field] = $value;
+            }
+        }
+        $data['positions'] = array_map(function (Position $position): array {
+            return $position->toArray();
+        }, $this->positions);
+        return array_filter($data, function ($v) {
+            return !is_null($v);
+        });
     }
 }

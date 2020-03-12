@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Content;
-
 abstract class OrderType
 {
     public const INCOME = 1;

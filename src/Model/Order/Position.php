@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order;
+
 use Pioniro\OrangeData\Model\Order\Position\SubjectType;
 use Pioniro\OrangeData\Model\Order\Position\VatType;
 use Webmozart\Assert\Assert;
@@ -14,6 +15,7 @@ class Position
      * @precision(6)
      * @max(281474976.710655)
      * @required
+     * @name(Количество предмета расчета)
      */
     protected $quantity;
 
@@ -23,6 +25,7 @@ class Position
      * @precision(2)
      * @max(99999999.99)
      * @required
+     * @name(Цена за единицу предмета расчета с учетом скидок и наценок)
      */
     protected $price;
 
@@ -30,6 +33,7 @@ class Position
      * @var int
      * @oneOfConst(\Pioniro\OrangeData\Model\Order\Position\VatType)
      * @required
+     * @name(Ставка НДС)
      */
     protected $tax;
 
@@ -38,6 +42,7 @@ class Position
      * @maxLen(128)
      * @tag(1030)
      * @required
+     * @name(Наименование предмета расчета)
      */
     protected $text;
 
@@ -46,11 +51,13 @@ class Position
      * @oneOfConst(\Pioniro\OrangeData\Model\Order\Position\PaymentType)
      * @tag(1214)
      * @required
+     * @name(Признак способа расчета)
      */
     protected $paymentMethodType;
 
     /**
      * @var int
+     * @name(Признак предмета расчета)
      * @oneOfConst(\Pioniro\OrangeData\Model\Order\Position\SubjectType)
      * @tag(1212)
      * @required
@@ -60,6 +67,7 @@ class Position
     /**
      * @var string|null
      * @tag(1162)
+     * @name(Код товарной номенклатуры)
      */
     protected $nomenclatureCode;
 
@@ -72,6 +80,7 @@ class Position
 
     /**
      * @var string|null
+     * @name(ИНН поставщика)
      * @tag(1226)
      * @regexp(\d{12})
      */
@@ -79,6 +88,7 @@ class Position
 
     /**
      * @var int|null
+     * @name(Признак агента по предмету расчета)
      * @bitmap(\Pioniro\OrangeData\Model\Order\Position\AgentType)
      * @tag(1222)
      */
@@ -87,11 +97,13 @@ class Position
     /**
      * @var AgentInfo|null
      * @tag(1223)
+     * @name(Данные агента)
      */
     protected $agentInfo;
 
     /**
      * @var string|null
+     * @name(Единица измерения предмета расчета)
      * @maxLen(16)
      * @tag(1197)
      */
@@ -99,6 +111,7 @@ class Position
 
     /**
      * @var string|null
+     * @name(Дополнительный реквизит предмета расчета)
      * @maxLen(64)
      * @tag(1191)
      */
@@ -106,6 +119,7 @@ class Position
 
     /**
      * @var string|null
+     * @name(Код страны происхождения товара)
      * @regexp(\d{3})
      * @tag(1230)
      */
@@ -115,12 +129,15 @@ class Position
      * @var string|null
      * @maxLen(32)
      * @tag(1231)
+     * @name(Номер таможенной декларации)
      */
     protected $customsDeclarationNumber;
 
     /**
      * @var double|null
      * @tag(1229)
+     * @name(Акциз)
+     * @precision(2)
      */
     protected $excise;
 
@@ -147,12 +164,45 @@ class Position
         Assert::maxLength($text, 128);
         Assert::oneOf($paymentMethodType, Position\PaymentType::all());
         Assert::oneOf($paymentSubjectType, SubjectType::all());
-
         $this->quantity = $quantity;
         $this->price = $price;
         $this->tax = $tax;
         $this->text = $text;
         $this->paymentMethodType = $paymentMethodType;
         $this->paymentSubjectType = $paymentSubjectType;
+    }
+
+    public function toArray(): array
+    {
+        $fields = [
+            'tax',
+            'text',
+            'paymentMethodType',
+            'paymentSubjectType',
+            'nomenclatureCode',
+            'supplierInfo',
+            'supplierINN',
+            'agentType',
+            'agentInfo',
+            'unitOfMeasurement',
+            'additionalAttribute',
+            'manufacturerCountryCode',
+            'customsDeclarationNumber',
+        ];
+        $data = [];
+        foreach ($fields as $field) {
+            $value = $this->$field;
+            if (is_object($value)) {
+                $data[$field] = $value->toArray();
+            } else {
+                $data[$field] = $value;
+            }
+        }
+        $data['quantity'] = round($this->quantity, 6);
+        $data['price'] = round($this->price, 2);
+        $data['excise'] = $this->excise ? round($this->excise, 2): null;
+        return array_filter($data, function ($v) {
+            return !is_null($v);
+        });
     }
 }

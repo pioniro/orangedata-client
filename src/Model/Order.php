@@ -124,4 +124,18 @@ class Order
     {
         return $this->callbackUrl;
     }
+
+    public function toArray(): array
+    {
+        return array_filter([
+            'id' => $this->id,
+            'inn' => $this->inn,
+            'group' => $this->group,
+            'content' => $this->content->toArray(),
+            'key' => $this->key,
+            'callbackUrl' => $this->callbackUrl
+        ], function ($v) {
+            return !is_null($v);
+        });
+    }
 }

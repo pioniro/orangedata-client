@@ -9,10 +9,32 @@
             "email": "pioniro@yandex.ru"
         }
     ],
-    "require": {},
+    "require": {
+        "php": "^7.2.5",
+        "ext-json": "*",
+        "php-http/client-common": "^1.6 || ^2.0",
+        "php-http/client-implementation": "^1.0",
+        "php-http/discovery": "^1.2",
+        "php-http/httplug": "^1.1 || ^2.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "php-http/mock-client": "^1.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "suggest": {
+        "ext-openssl": "*",
+        "phpseclib/phpseclib": "*"
+    },
     "autoload": {
         "psr-4": {
             "Pioniro\\OrangeData\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Pioniro\\OrangeData\\Tests": "tests/"
         }
     }
 }

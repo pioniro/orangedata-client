@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Position;
-
 abstract class PaymentType
 {
     public const FULL_PREPAID = 1;
