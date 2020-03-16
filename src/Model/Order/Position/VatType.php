@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Position;
+
 abstract class VatType
 {
     public const VAT_20 = 1;
