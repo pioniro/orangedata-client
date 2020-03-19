@@ -90,6 +90,7 @@ class Client
             switch ($response->getStatusCode()) {
                 case 200:
                 case 201:
+                case 409:
                     return;
                 default:
                     $content = $response->getBody()->getContents();
