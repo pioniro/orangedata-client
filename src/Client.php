@@ -110,6 +110,7 @@ class Client
      * @return OrderDetails|null
      * @throws ClientExceptionInterface
      * @throws Exception
+     * @throws ResponseException
      */
     public function check(string $inn, string $id): ?OrderDetails
     {
@@ -122,7 +123,7 @@ class Client
             }
             $json = $response->getBody()->getContents();
             $data = json_decode($json, true);
-            if (json_last_error() !== JSON_ERROR_NONE || $response->getStatusCode() !== 200) {
+            if ((json_last_error() !== JSON_ERROR_NONE) || $response->getStatusCode() !== 200) {
                 throw new ResponseException(
                     ['inn' => $inn, 'id' => $id],
                     $response->getStatusCode(),
