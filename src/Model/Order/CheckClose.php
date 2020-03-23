@@ -16,6 +16,8 @@ class CheckClose
      * @var int
      * @oneOfConst("Pioniro\OrangeData\Model\Order\CheckClose\TaxationSystemType")
      * @required
+     * @tag(1055)
+     * @name("Система налогообложения")
      */
     protected $taxationSystem;
 

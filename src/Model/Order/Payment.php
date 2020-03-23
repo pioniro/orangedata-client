@@ -8,6 +8,7 @@ class Payment
     /**
      * @var int
      * @oneOfConst("Pioniro\OrangeData\Model\Order\PaymentType")
+     * @name("Тип оплаты")
      */
     protected $type;
 
@@ -15,6 +16,7 @@ class Payment
      * @var double
      * @max(99999999.99)
      * @required
+     * @name("Сумма оплаты")
      */
     protected $amount;
 

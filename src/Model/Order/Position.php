@@ -34,6 +34,7 @@ class Position
      * @oneOfConst(\Pioniro\OrangeData\Model\Order\Position\VatType)
      * @required
      * @name(Ставка НДС)
+     * @tag(1199)
      */
     protected $tax;
 
