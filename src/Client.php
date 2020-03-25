@@ -131,49 +131,7 @@ class Client
                     ['order.id' => $id]
                 );
             }
-            return new OrderDetails(
-                $data['id'],
-                $data['deviceSN'],
-                $data['deviceRN'],
-                $data['fsNumber'],
-                $data['ofdName'],
-                $data['ofdWebsite'],
-                $data['ofdinn'],
-                $data['fnsWebsite'],
-                $data['companyINN'],
-                $data['companyName'],
-                $data['documentNumber'],
-                $data['shiftNumber'],
-                $data['documentIndex'],
-                new DateTime($data['processedAt']),
-                new Order\Content(
-                    $data['content']['type'],
-                    isset($data['content']['positions']) ? array_map(function ($pos): Order\Position {
-                        return new Order\Position(
-                            $pos['quantity'],
-                            $pos['price'],
-                            $pos['tax'],
-                            $pos['text'],
-                            $pos['paymentMethodType'],
-                            $pos['paymentSubjectType']
-                        );
-                    }, $data['content']['positions']) : [],
-                    $data['content']['customerContact'],
-                    new Order\CheckClose(
-                        $data['content']['checkClose']['taxationSystem'],
-                        isset($data['content']['checkClose']['payments']) ?
-                            array_map(function ($payment): Order\Payment {
-                                return new Order\Payment(
-                                    $payment['type'],
-                                    $payment['amount']
-                                );
-                            }, $data['content']['checkClose']['payments']) : []
-                    )
-                ),
-                $data['change'],
-                $data['fp'],
-                isset($data['callbackUrl']) ? $data['callbackUrl'] : null
-            );
+            return OrderDetails::fromArray($data);
         } catch (HttpException $e) {
             if ($e->getResponse()->getStatusCode() === 202) {
                 return null;

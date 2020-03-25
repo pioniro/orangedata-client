@@ -653,4 +653,14 @@ class Content
             return !is_null($v);
         });
     }
+
+    public static function fromArray($data)
+    {
+        return new static(
+            $data['type'],
+            isset($data['positions']) ? array_map([Position::class, 'fromArray'], $data['positions']) : [],
+            $data['customerContact'],
+            CheckClose::fromArray($data['checkClose'])
+        );
+    }
 }

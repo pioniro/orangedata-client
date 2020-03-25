@@ -44,4 +44,17 @@ class CheckClose
         }
         return $data;
     }
+
+    /**
+     * @param $data
+     * @return static
+     */
+    public static function fromArray($data)
+    {
+        return new static(
+            $data['taxationSystem'],
+            isset($data['payments']) ?
+                array_map([Payment::class, 'fromArray'], $data['payments']) : []
+        );
+    }
 }

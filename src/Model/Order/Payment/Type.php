@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Pioniro\OrangeData\Model\Order;
+namespace Pioniro\OrangeData\Model\Order\Payment;
 
-abstract class PaymentType
+abstract class Type
 {
     /**
      * @tag(1031)

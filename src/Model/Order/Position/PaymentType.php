@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Position;
+
 abstract class PaymentType
 {
     /** @name("Предоплата 100%") */

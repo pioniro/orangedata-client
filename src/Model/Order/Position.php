@@ -206,4 +206,16 @@ class Position
             return !is_null($v);
         });
     }
+
+    public static function fromArray($data)
+    {
+        return new Position(
+            $data['quantity'],
+            $data['price'],
+            $data['tax'],
+            $data['text'],
+            $data['paymentMethodType'],
+            $data['paymentSubjectType']
+        );
+    }
 }

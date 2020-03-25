@@ -7,7 +7,7 @@ class Payment
 {
     /**
      * @var int
-     * @oneOfConst("Pioniro\OrangeData\Model\Order\PaymentType")
+     * @oneOfConst("Pioniro\OrangeData\Model\Order\Payment\Type")
      * @name("Тип оплаты")
      */
     protected $type;
@@ -37,5 +37,17 @@ class Payment
             'type' => $this->type,
             'amount' => round($this->amount, 2)
         ];
+    }
+
+    /**
+     * @param $data
+     * @return static
+     */
+    public static function fromArray($data)
+    {
+        return new static(
+            $data['type'],
+            $data['amount']
+        );
     }
 }

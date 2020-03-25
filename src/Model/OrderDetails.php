@@ -312,4 +312,61 @@ class OrderDetails
     {
         return $this->callbackUrl;
     }
+
+    public function toArray(): array
+    {
+        $fields = [
+            'id',
+            'deviceSN',
+            'deviceRN',
+            'fsNumber',
+            'ofdName',
+            'ofdWebsite',
+            'companyINN',
+            'companyName',
+            'companyNumber',
+            'shiftNumber',
+            'documentIndex',
+            'content',
+            'change',
+            'fp',
+            'callbackUrl',
+        ];
+        $data = [];
+        foreach ($fields as $field) {
+            $value = $this->$field;
+            if (is_object($value)) {
+                $data[$field] = $value->toArray();
+            } else {
+                $data[$field] = $value;
+            }
+        }
+
+        $data['processedAt'] = $this->getProcessedAt()->format(DateTime::ATOM);
+        return $data;
+    }
+
+    public static function fromArray($data)
+    {
+        return new static(
+            $data['id'],
+            $data['deviceSN'],
+            $data['deviceRN'],
+            $data['fsNumber'],
+            $data['ofdName'],
+            $data['ofdWebsite'],
+            $data['ofdinn'],
+            $data['fnsWebsite'],
+            $data['companyINN'],
+            $data['companyName'],
+            $data['documentNumber'],
+            $data['shiftNumber'],
+            $data['documentIndex'],
+            new DateTime($data['processedAt']),
+            Order\Content::fromArray($data['content']),
+            $data['change'],
+            $data['fp'],
+            isset($data['callbackUrl']) ? $data['callbackUrl'] : null
+        );
+    }
 }
