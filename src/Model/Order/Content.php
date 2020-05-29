@@ -6,7 +6,7 @@ namespace Pioniro\OrangeData\Model\Order;
 use Pioniro\OrangeData\Model\Order\Content\OrderType;
 use Webmozart\Assert\Assert;
 
-class Content
+class Content extends AbstractContent
 {
     /**
      * @var int
@@ -126,30 +126,6 @@ class Content
      * @name(Дополнительный реквизит чека(БСО))
      */
     protected $additionalAttribute;
-
-    /**
-     * @var string|null
-     * @name(Номер автомата)
-     * @tag(1036)
-     * @maxLen(20)
-     */
-    protected $automateNumber;
-
-    /**
-     * @var string|null
-     * @tag(1009)
-     * @name(Адрес расчетов)
-     * @maxLen(243)
-     */
-    protected $settlementAddress;
-
-    /**
-     * @var string|null
-     * @tag(1187)
-     * @name(Место расчетов)
-     * @maxLen(243)
-     */
-    protected $settlementPlace;
 
     /**
      * @var string|null
@@ -341,30 +317,6 @@ class Content
     /**
      * @return string|null
      */
-    public function getAutomateNumber(): ?string
-    {
-        return $this->automateNumber;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSettlementAddress(): ?string
-    {
-        return $this->settlementAddress;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSettlementPlace(): ?string
-    {
-        return $this->settlementPlace;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getCustomer(): ?string
     {
         return $this->customer;
@@ -528,36 +480,6 @@ class Content
     public function setAdditionalAttribute(?string $additionalAttribute)
     {
         $this->additionalAttribute = $additionalAttribute;
-        return $this;
-    }
-
-    /**
-     * @param string|null $automateNumber
-     * @return Content
-     */
-    public function setAutomateNumber(?string $automateNumber)
-    {
-        $this->automateNumber = $automateNumber;
-        return $this;
-    }
-
-    /**
-     * @param string|null $settlementAddress
-     * @return Content
-     */
-    public function setSettlementAddress(?string $settlementAddress)
-    {
-        $this->settlementAddress = $settlementAddress;
-        return $this;
-    }
-
-    /**
-     * @param string|null $settlementPlace
-     * @return Content
-     */
-    public function setSettlementPlace(?string $settlementPlace)
-    {
-        $this->settlementPlace = $settlementPlace;
         return $this;
     }
 
