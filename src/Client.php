@@ -18,6 +18,11 @@ use Psr\Http\Message\StreamFactoryInterface;
 
 class Client
 {
+    const CREATE_PATH = '/api/v2/documents/';
+    const CHECK_PATH = '%s/api/v2/documents/%s/status/%s';
+    const CREATE_CORRECTION_PATH = '/api/v2/corrections/';
+    const CHECK_CORRECTION_PATH = '%s/api/v2/corrections/%s/status/%s';
+    
     /**
      * @development https://apip.orangedata.ru:2443
      * @production https://api.orangedata.ru:12003
@@ -73,14 +78,14 @@ class Client
      * @throws ResponseException
      * @throws \Http\Client\Exception
      */
-    public function create(Order $order): void
+    public function create(Order $order, $path = self::CREATE_PATH): void
     {
         $data = $order->toArray();
         $json = json_encode($data, JSON_UNESCAPED_UNICODE);
         $sign = $this->signer->sign($json);
         $request = $this->requestFactory->createRequest(
             'POST',
-            rtrim($this->url, '/') . '/api/v2/documents/'
+            rtrim($this->url, '/') . $path
         )
             ->withHeader('Content-Type', 'application/json')
             ->withBody($this->streamFactory->createStream($json))
@@ -112,10 +117,10 @@ class Client
      * @throws Exception
      * @throws ResponseException
      */
-    public function check(string $inn, string $id): ?OrderDetails
+    public function check(string $inn, string $id, $path = self::CHECK_PATH): ?OrderDetails
     {
         $request = $this->requestFactory->createRequest('GET',
-            sprintf('%s/api/v2/documents/%s/status/%s', rtrim($this->url, '/'), $inn, $id));
+            sprintf($path, rtrim($this->url, '/'), $inn, $id));
         try {
             $response = $this->httpClient->sendRequest($request);
             if($response->getStatusCode() === 202){
