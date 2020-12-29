@@ -550,7 +550,7 @@ class Content extends AbstractContent
             'supplierPhoneNumbers',
             'additionalUserAttribute',
             'additionalAttribute',
-            'automateNumber',
+            'automatNumber',
             'settlementAddress',
             'settlementPlace',
             'customer',
