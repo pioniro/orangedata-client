@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order\Content;
@@ -102,7 +103,7 @@ class CorrectionContent extends AbstractContent
      * @precision(2)
      * @max(99999999.99)
      */
-    protected $tax2sum;
+    protected $tax2Sum;
 
     /**
      * @var float|null
@@ -145,11 +146,12 @@ class CorrectionContent extends AbstractContent
 
     /**
      * CorrectionContent constructor.
-     * @param int $correctionType
-     * @param int $type
+     *
+     * @param int      $correctionType
+     * @param int      $type
      * @param DateTime $causeDocumentDate
-     * @param string $causeDocumentNumber
-     * @param float $totalSum
+     * @param string   $causeDocumentNumber
+     * @param float    $totalSum
      */
     public function __construct(
         int $correctionType,
@@ -256,9 +258,9 @@ class CorrectionContent extends AbstractContent
     /**
      * @return float|null
      */
-    public function getTax2sum(): ?float
+    public function getTax2Sum(): ?float
     {
-        return $this->tax2sum;
+        return $this->tax2Sum;
     }
 
     /**
@@ -303,121 +305,145 @@ class CorrectionContent extends AbstractContent
 
     /**
      * @param float|null $cashSum
+     *
      * @return CorrectionContent
      */
-    public function setCashSum(?float $cashSum): CorrectionContent
+    public function setCashSum(?float $cashSum): self
     {
         $this->cashSum = $cashSum;
+
         return $this;
     }
 
     /**
      * @param float|null $eCashSum
+     *
      * @return CorrectionContent
      */
-    public function setECashSum(?float $eCashSum): CorrectionContent
+    public function setECashSum(?float $eCashSum): self
     {
         $this->eCashSum = $eCashSum;
+
         return $this;
     }
 
     /**
      * @param float|null $prepaymentSum
+     *
      * @return CorrectionContent
      */
-    public function setPrepaymentSum(?float $prepaymentSum): CorrectionContent
+    public function setPrepaymentSum(?float $prepaymentSum): self
     {
         $this->prepaymentSum = $prepaymentSum;
+
         return $this;
     }
 
     /**
      * @param float|null $postpaymentSum
+     *
      * @return CorrectionContent
      */
-    public function setPostpaymentSum(?float $postpaymentSum): CorrectionContent
+    public function setPostpaymentSum(?float $postpaymentSum): self
     {
         $this->postpaymentSum = $postpaymentSum;
+
         return $this;
     }
 
     /**
      * @param float|null $otherPaymentTypeSum
+     *
      * @return CorrectionContent
      */
-    public function setOtherPaymentTypeSum(?float $otherPaymentTypeSum): CorrectionContent
+    public function setOtherPaymentTypeSum(?float $otherPaymentTypeSum): self
     {
         $this->otherPaymentTypeSum = $otherPaymentTypeSum;
+
         return $this;
     }
 
     /**
      * @param float|null $tax1Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax1Sum(?float $tax1Sum): CorrectionContent
+    public function setTax1Sum(?float $tax1Sum): self
     {
         $this->tax1Sum = $tax1Sum;
+
         return $this;
     }
 
     /**
-     * @param float|null $tax2sum
+     * @param float|null $tax2Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax2sum(?float $tax2sum): CorrectionContent
+    public function setTax2Sum(?float $tax2Sum): self
     {
-        $this->tax2sum = $tax2sum;
+        $this->tax2Sum = $tax2Sum;
+
         return $this;
     }
 
     /**
      * @param float|null $tax3Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax3Sum(?float $tax3Sum): CorrectionContent
+    public function setTax3Sum(?float $tax3Sum): self
     {
         $this->tax3Sum = $tax3Sum;
+
         return $this;
     }
 
     /**
      * @param float|null $tax4Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax4Sum(?float $tax4Sum): CorrectionContent
+    public function setTax4Sum(?float $tax4Sum): self
     {
         $this->tax4Sum = $tax4Sum;
+
         return $this;
     }
 
     /**
      * @param float|null $tax5Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax5Sum(?float $tax5Sum): CorrectionContent
+    public function setTax5Sum(?float $tax5Sum): self
     {
         $this->tax5Sum = $tax5Sum;
+
         return $this;
     }
 
     /**
      * @param float|null $tax6Sum
+     *
      * @return CorrectionContent
      */
-    public function setTax6Sum(?float $tax6Sum): CorrectionContent
+    public function setTax6Sum(?float $tax6Sum): self
     {
         $this->tax6Sum = $tax6Sum;
+
         return $this;
     }
 
     /**
      * @param int|null $taxationSystem
+     *
      * @return CorrectionContent
      */
-    public function setTaxationSystem(?int $taxationSystem): CorrectionContent
+    public function setTaxationSystem(?int $taxationSystem): self
     {
         $this->taxationSystem = $taxationSystem;
+
         return $this;
     }
 
@@ -449,6 +475,7 @@ class CorrectionContent extends AbstractContent
             $data[$field] = $this->$field;
         }
         $data['causeDocumentDate'] = $this->causeDocumentDate->format(DateTime::ATOM);
+
         return array_filter($data, function ($v) {
             return !is_null($v);
         });
@@ -481,8 +508,9 @@ class CorrectionContent extends AbstractContent
             $data['totalSum'],
         );
         foreach ($fields as $field) {
-            $content->{'set' . ucfirst($field)}($data[$field]);
+            $content->{'set'.ucfirst($field)}($data[$field]);
         }
+
         return $content;
     }
 }
