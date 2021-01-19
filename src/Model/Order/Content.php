@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model\Order;
 
-use Pioniro\OrangeData\Model\Order\Content\OrderType;
 use Webmozart\Assert\Assert;
+use Pioniro\OrangeData\Model\Order\Content\OrderType;
 
 class Content extends AbstractContent
 {
@@ -169,9 +170,10 @@ class Content extends AbstractContent
 
     /**
      * Content constructor.
-     * @param int $type
+     *
+     * @param int        $type
      * @param Position[] $positions
-     * @param string $customerContact
+     * @param string     $customerContact
      * @param CheckClose $checkClose
      */
     public function __construct(int $type, array $positions, string $customerContact, CheckClose $checkClose)
@@ -202,11 +204,13 @@ class Content extends AbstractContent
 
     /**
      * @param CheckClose|null $checkClose
+     *
      * @return Content
      */
-    public function setCheckClose(?CheckClose $checkClose): Content
+    public function setCheckClose(?CheckClose $checkClose): self
     {
         $this->checkClose = $checkClose;
+
         return $this;
     }
 
@@ -356,26 +360,31 @@ class Content extends AbstractContent
 
     /**
      * @param int|null $agentType
+     *
      * @return Content
      */
-    public function setAgentType(?int $agentType): Content
+    public function setAgentType(?int $agentType): self
     {
         $this->agentType = $agentType;
+
         return $this;
     }
 
     /**
      * @param int|null $agentType
+     *
      * @return Content
      */
-    public function setOnAgentType(int $agentType): Content
+    public function setOnAgentType(int $agentType): self
     {
         $this->agentType |= $agentType;
+
         return $this;
     }
 
     /**
      * @param int|null $agentType
+     *
      * @return bool
      */
     public function checkOnAgentType(int $agentType): bool
@@ -385,151 +394,181 @@ class Content extends AbstractContent
 
     /**
      * @param string[]|null $paymentTransferOperatorPhoneNumbers
+     *
      * @return Content
      */
     public function setPaymentTransferOperatorPhoneNumbers(?array $paymentTransferOperatorPhoneNumbers)
     {
         $this->paymentTransferOperatorPhoneNumbers = $paymentTransferOperatorPhoneNumbers;
+
         return $this;
     }
 
     /**
      * @param string|null $paymentAgentOperation
+     *
      * @return Content
      */
     public function setPaymentAgentOperation(?string $paymentAgentOperation)
     {
         $this->paymentAgentOperation = $paymentAgentOperation;
+
         return $this;
     }
 
     /**
      * @param string[]|null $paymentAgentPhoneNumbers
+     *
      * @return Content
      */
     public function setPaymentAgentPhoneNumbers(?array $paymentAgentPhoneNumbers)
     {
         $this->paymentAgentPhoneNumbers = $paymentAgentPhoneNumbers;
+
         return $this;
     }
 
     /**
      * @param string[]|null $paymentOperatorPhoneNumbers
+     *
      * @return Content
      */
     public function setPaymentOperatorPhoneNumbers(?array $paymentOperatorPhoneNumbers)
     {
         $this->paymentOperatorPhoneNumbers = $paymentOperatorPhoneNumbers;
+
         return $this;
     }
 
     /**
      * @param string|null $paymentOperatorName
+     *
      * @return Content
      */
     public function setPaymentOperatorName(?string $paymentOperatorName)
     {
         $this->paymentOperatorName = $paymentOperatorName;
+
         return $this;
     }
 
     /**
      * @param string|null $paymentOperatorAddress
+     *
      * @return Content
      */
     public function setPaymentOperatorAddress(?string $paymentOperatorAddress)
     {
         $this->paymentOperatorAddress = $paymentOperatorAddress;
+
         return $this;
     }
 
     /**
      * @param string|null $paymentOperatorINN
+     *
      * @return Content
      */
     public function setPaymentOperatorINN(?string $paymentOperatorINN)
     {
         $this->paymentOperatorINN = $paymentOperatorINN;
+
         return $this;
     }
 
     /**
      * @param string[]|null $supplierPhoneNumbers
+     *
      * @return Content
      */
     public function setSupplierPhoneNumbers(?array $supplierPhoneNumbers)
     {
         $this->supplierPhoneNumbers = $supplierPhoneNumbers;
+
         return $this;
     }
 
     /**
      * @param AdditionalUserAttribute|null $additionalUserAttribute
+     *
      * @return Content
      */
     public function setAdditionalUserAttribute(?AdditionalUserAttribute $additionalUserAttribute)
     {
         $this->additionalUserAttribute = $additionalUserAttribute;
+
         return $this;
     }
 
     /**
      * @param string|null $additionalAttribute
+     *
      * @return Content
      */
     public function setAdditionalAttribute(?string $additionalAttribute)
     {
         $this->additionalAttribute = $additionalAttribute;
+
         return $this;
     }
 
     /**
      * @param string|null $customer
+     *
      * @return Content
      */
     public function setCustomer(?string $customer)
     {
         $this->customer = $customer;
+
         return $this;
     }
 
     /**
      * @param string|null $customerINN
+     *
      * @return Content
      */
     public function setCustomerINN(?string $customerINN)
     {
         $this->customerINN = $customerINN;
+
         return $this;
     }
 
     /**
      * @param string|null $cashier
+     *
      * @return Content
      */
     public function setCashier(?string $cashier)
     {
         $this->cashier = $cashier;
+
         return $this;
     }
 
     /**
      * @param string|null $cashierINN
+     *
      * @return Content
      */
     public function setCashierINN(?string $cashierINN)
     {
         $this->cashierINN = $cashierINN;
+
         return $this;
     }
 
     /**
      * @param string|null $senderEmail
+     *
      * @return Content
      */
     public function setSenderEmail(?string $senderEmail)
     {
         $this->senderEmail = $senderEmail;
+
         return $this;
     }
 
@@ -571,6 +610,7 @@ class Content extends AbstractContent
         $data['positions'] = array_map(function (Position $position): array {
             return $position->toArray();
         }, $this->positions);
+
         return array_filter($data, function ($v) {
             return !is_null($v);
         });
@@ -581,8 +621,8 @@ class Content extends AbstractContent
         return new static(
             $data['type'],
             isset($data['positions']) ? array_map([Position::class, 'fromArray'], $data['positions']) : [],
-            $data['customerContact'],
-            CheckClose::fromArray($data['checkClose'])
+            isset($data['customerContact']) ? $data['customerContact'] : '',
+            isset($data['checkClose']) ? CheckClose::fromArray($data['checkClose']) : CheckClose::fromArray($data)
         );
     }
 }
