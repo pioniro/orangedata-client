@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pioniro\OrangeData\Model;
 
-use Pioniro\OrangeData\Model\Order\Content;
+use Pioniro\OrangeData\Model\Order\AbstractContent;
 
 class Order
 {
@@ -22,7 +22,7 @@ class Order
     protected $inn;
 
     /**
-     * @var Content
+     * @var AbstractContent
      * @required
      */
     protected $content;
@@ -50,10 +50,10 @@ class Order
      * Order constructor.
      * @param string $id
      * @param string $inn
-     * @param Content $content
+     * @param AbstractContent $content
      * @param string $key
      */
-    public function __construct(string $id, string $inn, Content $content, string $key)
+    public function __construct(string $id, string $inn, AbstractContent $content, string $key)
     {
         $this->id = $id;
         $this->inn = $inn;
@@ -102,9 +102,9 @@ class Order
     }
 
     /**
-     * @return Content
+     * @return AbstractContent
      */
-    public function getContent(): Content
+    public function getContent(): AbstractContent
     {
         return $this->content;
     }
